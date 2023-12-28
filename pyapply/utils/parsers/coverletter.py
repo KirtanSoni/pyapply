@@ -19,7 +19,6 @@ def generate_cover_letter(output_path,body_text):
     for body in body_split:
         content.append(Paragraph(body, styles['BodyText']))
     content.append(Paragraph(f"", styles['Normal']))
-    content.append(Paragraph(f"I am available 20 hours a week", styles['Normal']))
     content.append(Paragraph(f"", styles['Normal']))
     body=("""Thank you for your time and consideration. I look forward to hearing from you soon.""")
     content.append(Paragraph(body, styles['BodyText']))
