@@ -1,4 +1,4 @@
-from pyapply.config import name, address, email
+from pyapply.config import CONFIG
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph
@@ -9,9 +9,9 @@ def generate_cover_letter(output_path,body_text):
     styles = getSampleStyleSheet()
     content=[]
     date1 = "Date: "+ datetime.today().strftime("%B %d, %Y")
-    content.append(Paragraph(name, styles['Heading1']))
+    content.append(Paragraph(CONFIG['name'], styles['Heading1']))
     content.append(Paragraph(f"", styles['Normal']))
-    content.append(Paragraph(address, styles['Normal']))
+    content.append(Paragraph(CONFIG['address'], styles['Normal']))
     content.append(Paragraph(f"", styles['Normal']))
     content.append(Paragraph(date1 , styles['Normal']))
     content.append(Paragraph(f"Dear Recruiting Manager,", styles['BodyText']))
@@ -24,7 +24,7 @@ def generate_cover_letter(output_path,body_text):
     body=("""Thank you for your time and consideration. I look forward to hearing from you soon.""")
     content.append(Paragraph(body, styles['BodyText']))
     content.append(Paragraph("Sincerely,", styles['BodyText']))
-    content.append(Paragraph(name, styles['Normal']))
-    content.append(Paragraph(email, styles['Normal']))
+    content.append(Paragraph(CONFIG['name'], styles['Normal']))
+    content.append(Paragraph(CONFIG['email'], styles['Normal']))
     doc.build(content)
    

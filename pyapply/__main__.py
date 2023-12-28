@@ -2,10 +2,16 @@
 import time
 import pyperclip
 import os
-from pyapply.utils.LLM.chatgpt.requestgpt import requestgpt
+from pyapply.utils import requestgpt
 from pyapply.presets.asujobs import create_folder_and_file
-from pyapply.cover_letter_templates.coverletter import generate_cover_letter
+from pyapply.utils.parsers.coverletter import generate_cover_letter
 from pyapply.config import *
+
+
+
+
+
+
 
 jobs_summary = []
 isrunning = True
@@ -25,7 +31,7 @@ if __name__ == "__main__":
             else:
                 print("No Job ID found")
                 continue
-            prompt =   prompt = open(prompt_path+'/prompt.txt', 'r').read()
+            prompt =   prompt = open(CONFIG['prompt_path']+'/prompt.txt', 'r').read()
             _, content = requestgpt(job_description,prompt)
             if _:
                 print("generated chatgpt response ")
@@ -36,12 +42,12 @@ if __name__ == "__main__":
             generate_cover_letter(output_path,content)
             print("generated cover letter")
             try:
-                os.remove(temp_path+'/coverletter.pdf')
+                os.remove(CONFIG['temp_path']+'/coverletter.pdf')
             except:
                 print("Error in removing cover letter")
                 continue
             try:
-                os.system('cp '+output_path+'/coverletter.pdf '+temp_path)
+                os.system('cp '+output_path+'/coverletter.pdf '+CONFIG['temp_path'])
             except:
                 print("Error in copying cover letter")
                 continue
