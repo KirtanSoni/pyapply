@@ -1,6 +1,6 @@
 import os
 from pyapply.utils import requestgpt, generate_cover_letter
-from pyapply.presets.asujobid import create_folder_and_file
+from pyapply.folder_strategy import create_folder_and_file
 from pyapply.config import CONFIG
 
 def asujobs(job_description):
