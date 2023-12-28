@@ -4,7 +4,7 @@ import os
 from pyapply.app   import listener
 from pyapply.workflows.asujobs import asujobs
 import click
-from utils import requestgpt
+from .utils import requestgpt
 
 prompt_path = "pyapply/prompts"
 
@@ -42,7 +42,7 @@ def set_user():
         'history_path' : applied_path,
         'prompt_path': prompt_path,
     }
-    print(user)
+    print(user+"\n"+final_prompt)
 
 
 cli.add_command(listen)

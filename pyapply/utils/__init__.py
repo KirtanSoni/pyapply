@@ -1,2 +1,2 @@
-from pyapply.utils.LLM.chatgpt.requestgpt import requestgpt
-from pyapply.utils.parsers.coverletter import generate_cover_letter
+from .chatgpt.requestgpt import requestgpt
+from .parsers.coverletter import generate_cover_letter
