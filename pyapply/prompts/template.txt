@@ -1,0 +1,18 @@
+Select the relevant skills & Experience for the job description and use them to Write 4 paragraphs tailored to the job description;
+use keywords from the job description under 350 words
+costraints: no Variables in Square brackets, avoid sentences that require extra information. extrapolate experience for unrelated jobs
+
+##Structure##
+
+I am writing to express my interest on the given jobtitle...
+
+Educational Background related paragraph...
+
+Previous roles related paragraph...
+
+Relevant Skills related to job descriptions....
+
+
+
+##Details##
+

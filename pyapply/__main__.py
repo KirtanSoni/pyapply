@@ -1,52 +1,59 @@
 # author : Kirtan Soni
-import time
 import pyperclip
 import os
-from pyapply.utils.LLM.chatgpt.requestgpt import requestgpt
-from pyapply.presets.asujobs import create_folder_and_file
-from pyapply.cover_letter_templates.coverletter import generate_cover_letter
-from pyapply.config import *
+from pyapply.app   import listener
+from pyapply.workflows.asujobs import asujobs
+import click
+from .utils import requestgpt
 
-jobs_summary = []
-isrunning = True
+prompt_path = "pyapply/prompts"
+
+@click.group()
+def cli():
+    pass
+
+@cli.command()
+def listen():
+    print("Starting listener...")
+    listener(3,pyperclip.paste ,asujobs)
+
+
+@click.command()
+def set_user():
+    api = click.prompt("Enter your openai api key")
+    name = click.prompt("Enter your name")
+    address = click.prompt("Enter City, State")
+    email = click.prompt("Enter your email")
+    path = click.prompt("Enter your saving dir")
+    resume_path = click.prompt("Enter your resume textfile path")
+    resume = open(resume_path, "r").read()
+
+    final_prompt = open(prompt_path+"/template.txt",'r').read()
+    final_prompt += resume
+    open(prompt_path+"/coverletter.txt",'w').write(final_prompt)
+
+    applied_path = path + "/History"
+    user = {
+        'OPEN_API_KEY': api,
+        'name' : name,
+        'address' : address,
+        'email' : email,
+        'path' : path,
+        'history_path' : applied_path,
+        'prompt_path': prompt_path,
+    }
+    print(user+"\n"+final_prompt)
+
+
+cli.add_command(listen)
+cli.add_command(set_user)
+
+
 if __name__ == "__main__":
-    job_description = pyperclip.paste()
-    print("Listening for job description...")
-    while(isrunning):
-        time.sleep(3)
-        if job_description == pyperclip.paste():
-            continue
-        else:
-            job_description = pyperclip.paste()
-
-            _, jobid = create_folder_and_file(job_description)
-            if _:
-                print("Job ID found: ", jobid)
-            else:
-                print("No Job ID found")
-                continue
-            prompt =   prompt = open(prompt_path+'/prompt.txt', 'r').read()
-            _, content = requestgpt(job_description,prompt)
-            if _:
-                print("generated chatgpt response ")
-            else:
-                print("Error in generating chatgpt response")
-                continue
-            output_path = jobid
-            generate_cover_letter(output_path,content)
-            print("generated cover letter")
-            try:
-                os.remove(temp_path+'/coverletter.pdf')
-            except:
-                print("Error in removing cover letter")
-                continue
-            try:
-                os.system('cp '+output_path+'/coverletter.pdf '+temp_path)
-            except:
-                print("Error in copying cover letter")
-                continue
-            jobs_summary.append(jobid)
-            print("Listening for job description...")
-
-
-
+    try:
+        os.environ["OPENAI_API_KEY"]
+    except Exception as e:
+        print(f"Error: export OPENAI_API_KEY=<your-key>")
+        exit(1)
+    print("Author Kirtan Soni")
+    cli()
