@@ -57,10 +57,10 @@ def set_resume(resume_path):
 @click.command()
 @click.argument('save_path', type=click.Path(exists=True, resolve_path=True))
 def set_user(save_path):
-    api = click.prompt("openai api key: ")
-    name = click.prompt("name: ")
-    address = click.prompt("city, State: ")
-    email = click.prompt("email: ")
+    api = click.prompt("openai api key")
+    name = click.prompt("name")
+    address = click.prompt("city, State")
+    email = click.prompt("email")
     path = save_path
     # create user.json
     user = {
