@@ -31,10 +31,16 @@ pip install pyapply
 ### Profile Setup
 
 ```bash
-pyapply set_user
+pyapply set_user <path/to/save/asujobs>
 ```
 
 fill the form and you are ready to go.
+
+```bash
+pyapply set_resume <path/of/resume.txt>
+```
+set resume to be used as context information for gpt
+
 ### Generate cover letters
 
 ```bash
