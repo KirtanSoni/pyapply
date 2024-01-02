@@ -1,39 +1,28 @@
 # author : Kirtan Soni
 
-import time
 import pyperclip
-import os
 from pyapply.workflows.asujobs import asujobs
 import click
-from .userdatafiles import load_user_data, save_user_data, load_coverletter_prompt, config_prompt
+from .userdatafiles import save_user_data, config_prompt, load_user_data, load_coverletter_prompt
+from .utils import listener
 
 
+VERSION = "0.1"
 
+@click.command(help="About PyApply")
+def about():
+    click.echo("-------------------------------------------")
+    click.echo(click.style(f"PyApply :", fg="magenta")+click.style(f": https://github.com/kirtansoni/pyapply", fg="cyan"))
+    click.echo("-------------------------------------------")
+    click.echo(click.style(f"- CLI tool to automate the process of applying to jobs.", fg="green"))
+    click.echo(click.style(f"- Currently only supports Asu Student jobs", fg="green"))
+    click.echo(click.style(f"- Open source and free to use", fg="green"))
+    click.echo(click.style(f"- Built by Kirtan Soni", fg="green"))
+    click.echo("-------------------------------------------")
+    click.echo(click.style(f"Feedback", fg="yellow")+click.style(f": https://github.com/kirtansoni/pyapply/issues", fg="cyan"))
+    click.echo(click.style(f"Version ", fg="yellow")+click.style(f"{VERSION}", fg="green"))
+    click.echo(click.style(f"Requirements ", fg="yellow")+click.style(f"CHATGPT 3.5 API Key", fg="green"))
 
-
-
-def listener(interval: int, inputcallback, callback) -> None:
-    try:
-        load_user_data()
-        load_coverletter_prompt()
-    except Exception as e:
-        print(e)
-        exit(1)
-    clipboard = inputcallback()
-    while True:
-        if clipboard == inputcallback():
-            continue
-        clipboard = inputcallback()
-        try:
-            callback(clipboard)
-        except Exception as e:
-            print(f"Error in listener: {e}")
-            continue
-        time.sleep(interval)
-
-
-
-prompt_path = "pyapply/prompts"
 
 @click.group()
 def cli():
@@ -41,41 +30,50 @@ def cli():
 
 
 
-@cli.command()
+
+
+@cli.command(help="Starts the listener")
 def listen():
-    print("Starting listener...")
-    listener(3,pyperclip.paste ,asujobs)
+    click.echo(click.style(f"Listening for job descriptions...", fg="green"))
+    try:
+        load_user_data(), load_coverletter_prompt()
+        listener(3,pyperclip.paste ,asujobs)
+    except Exception as e:
+        print(e)
+        return
 
 
-@click.command()
+@click.command(help="set reference resume for cover letter generation (persistent)")
 @click.argument('resume_path', type=click.Path(exists=True, resolve_path=True))
 def set_resume(resume_path):
     config_prompt(resume_path)
     
 
 
-@click.command()
+@click.command(help="set user data for cover letter generation (persistent)")
 @click.argument('save_path', type=click.Path(exists=True, resolve_path=True))
 def set_user(save_path):
-    api = click.prompt("openai api key")
-    name = click.prompt("name")
-    address = click.prompt("city, State")
-    email = click.prompt("email")
+    api = click.prompt(click.style(f"Enter your OPENAI API KEY", fg="yellow"))
+    name = click.prompt(click.style(f"Enter your Full Name", fg="yellow"))
+    address = click.prompt(click.style("Enter your City, State", fg="yellow"))
+    email = click.prompt(click.style("Enter your Email", fg="yellow"))
     path = save_path
-    # create user.json
+
     user = {
+        'path' : path,
         'OPEN_API_KEY': api,
         'name' : name,
         'address' : address,
         'email' : email,
-        'path' : path,
     }
     save_user_data(user)   
+
 
 cli.add_command(listen)
 cli.add_command(set_user)
 cli.add_command(set_resume)
+cli.add_command(about)
+
 
 if __name__ == "__main__":
-    print("Author Kirtan Soni")
     cli()

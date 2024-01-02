@@ -28,26 +28,36 @@ pip install pyapply
 
 ## Usage
 
+>[!NOTE]
+>if the below commands dont work directly, try adding ```python -m ``` before every command listed below.
+> Example: ```python -m pyapply about```
+
+### About
+```bash
+pyapply about
+```
+
+
 ### Profile Setup
 
+#### To set User Profile
 ```bash
 pyapply set_user <path/to/save/asujobs>
 ```
 
-fill the form and you are ready to go.
-
+#### To set context information for coverletters
 ```bash
+
 pyapply set_resume <path/of/resume.txt>
 ```
-set resume to be used as context information for gpt
 
-### Generate cover letters
+## Generate cover letters
 
 ```bash
 pyapply listen
 ```
 
-Coverletters will be generated automatically once the clipboard values change.
+Coverletters will be generated automatically as soon as the clipboard values change.
 
   
 
@@ -57,9 +67,10 @@ PyApply can convert a process that typically takes 5-10 minutes into a task that
 
   
 
-## Contributing
+<!-- ## Contributing
 
-Contributions are welcome! Please read the contributing guidelines before getting started.
+Contributions are welcome! Please read the contributing guidelines before getting started. -->
+
 
   
 
