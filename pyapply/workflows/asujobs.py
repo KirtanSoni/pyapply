@@ -1,20 +1,18 @@
 import os
 import re
-from ..userdatafiles import load_user_data, load_coverletter_prompt
-from .._requestgpt import requestgpt
+from ..userdatafiles import load_user_data
+from ..utils import generate_coverletter
+
 
 # change import for different cover letter templates
-from ..coverletters.plainV1 import generate_cover_letter
-
-
 
 
 def create_folder_and_file(description_text):
     try:
         CONFIG = load_user_data()
         base_dir = os.path.join(CONFIG['path'],'asujobs')
-        os.makedirs(base_dir, exist_ok=True)
         history_dir = os.path.join(base_dir , 'history')
+        os.makedirs(base_dir, exist_ok=True)
         os.makedirs(history_dir, exist_ok=True)
     except Exception as e:
         raise e
@@ -33,38 +31,14 @@ def create_folder_and_file(description_text):
 
 
 def asujobs(job_description):
-    try:
-        CONFIG = load_user_data()
-        base_dir = os.path.join(CONFIG['path'],'asujobs')
-        os.makedirs(base_dir, exist_ok=True)
-        history_dir = os.path.join(base_dir , 'history')
-        os.makedirs(history_dir, exist_ok=True)
+    try:_, job_path = create_folder_and_file(job_description)
     except Exception as e:
-        raise e
-    _, job_path = create_folder_and_file(job_description)
-    if _:
-        print("Job ID found: ", job_path)
-    else:
-        print("No Job ID found")
+        print("Error in creating folder and file: ", e)
         return
-    print("requesting GPT 3.5...")
-
-    prompt = load_coverletter_prompt() + job_description
-    try:
-        content = requestgpt(prompt)
-        print("Response recieved")
-        generate_cover_letter(job_path,content)
-        print("generated cover letter")
+    if not _:
+        print(job_path)
+        return
+    try: generate_coverletter(job_path,job_description)
     except Exception as e:
-        raise e
-    
-    try:
-        temp_coverletter = os.path.join(CONFIG['path'],'coverletter.pdf')
-        os.remove(temp_coverletter)
-    except:
-        pass
-    try:
-        os.system('cp '+job_path+'/coverletter.pdf '+base_dir)
-    except:
-        pass
-    print("Listening for job description...")
+        print("Error in generating cover letter: ", e)
+        return

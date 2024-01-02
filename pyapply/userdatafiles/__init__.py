@@ -29,11 +29,10 @@ def load_user_data()->dict:
     abs_file_path = os.path.join(base, rel_path)
     try:
         with open(abs_file_path) as f:
-            CONFIG = json.load(f)
+            return json.load(f)
     except:
         print("User Not Configured")
-        #exit(1)
-    return CONFIG
+        exit(1)
 
 def load_coverletter_prompt()->str:
     base = os.path.dirname(__file__)
