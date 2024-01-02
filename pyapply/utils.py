@@ -26,7 +26,7 @@ def listener(interval: int, inputcallback, callback) -> None:
         try:
             callback(clipboard)
         except Exception as e:
-            print(f"Error in listener: {e}")
+            yield e
             continue
         time.sleep(interval)
 
@@ -34,9 +34,7 @@ def generate_coverletter(path,job_description):
     try:
         prompt = load_coverletter_prompt() + job_description
         content = requestgpt(prompt)
-        print("Response recieved")
         generate_cover_letter(path,content)
-        print("generated cover letter")
     except Exception as e:
         raise e
     
