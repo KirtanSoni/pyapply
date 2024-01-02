@@ -27,6 +27,7 @@ pip install pyapply
   
 
 ## Usage
+
 >[!NOTE]
 >if the below commands dont work directly, try adding ```python -m ``` before every command listed below.
 > Example: ```python -m pyapply about```
@@ -35,6 +36,7 @@ pip install pyapply
 ```bash
 pyapply about
 ```
+
 
 ### Profile Setup
 
@@ -45,6 +47,7 @@ pyapply set_user <path/to/save/asujobs>
 
 #### To set context information for coverletters
 ```bash
+
 pyapply set_resume <path/of/resume.txt>
 ```
 
@@ -67,6 +70,7 @@ PyApply can convert a process that typically takes 5-10 minutes into a task that
 <!-- ## Contributing
 
 Contributions are welcome! Please read the contributing guidelines before getting started. -->
+
 
   
 
