@@ -27,9 +27,9 @@ pip install pyapply
   
 
 ## Usage
->[!INFO]
->if the below commands dont work directly, try adding ```python -m ``` before every command listed below
-> Example ```python -m pyapply about```
+>[!NOTE]
+>if the below commands dont work directly, try adding ```python -m ``` before every command listed below.
+> Example: ```python -m pyapply about```
 
 ### About
 ```bash
