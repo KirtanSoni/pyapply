@@ -1,6 +1,30 @@
 import json
 import os
-import sys
+
+user_file_name = "user.json"
+user_prompt_file_name = "coverletter.txt"
+
+## Config Structure ##
+class Config:
+    def __init__(self, api:str, path:str, name:str, address:str, email:str):
+        self.api_key = api
+        self.name = name
+        self.address = address
+        self.email = email
+        self.path = path
+
+    def dump(self,path:str):
+        with open(path, 'w') as json_file:
+            json.dump( {
+                'OPEN_API_KEY': self.api_key,
+                'name' : self.name,
+                'address' : self.address,
+                'email' : self.email,
+                'path' : self.path,
+            },json_file)
+    
+
+
 
 coverletter_structure = """Select the relevant skills & Experience for the job description and use them to Write 4 paragraphs tailored to the job description;
 use keywords from the job description under 350 words
@@ -25,49 +49,39 @@ Relevant Skills related to job descriptions....
 
 def load_user_data()->dict:
     base = os.path.dirname(__file__) #<-- absolute dir the script is in
-    rel_path = "user.json"
-    abs_file_path = os.path.join(base, rel_path)
+    abs_file_path = os.path.join(base, user_file_name)
     try:
         with open(abs_file_path) as f:
             return json.load(f)
     except:
-        print("User Not Configured")
-        exit(1)
+        raise Exception("User not Configured")
+
 
 def load_coverletter_prompt()->str:
     base = os.path.dirname(__file__)
-    abs_file_path = os.path.join(base, "coverletter.txt")
+    abs_file_path = os.path.join(base, user_prompt_file_name)
     try:
         prompt = open(abs_file_path,'r').read()
         return prompt
     except Exception as e:
-        print("Prompt not Configured")
-        exit(1)
-        
+        raise Exception("Prompt not Configured")
 
 
-def save_user_data(CONFIG:dict):
+def save_user_data(CONFIG:Config):
     base = os.path.dirname(__file__) #<-- absolute dir the script is in
-    rel_path = "user.json"
-    abs_file_path = os.path.join(base, rel_path)
-    with open(abs_file_path, 'w') as outfile:
-        json.dump(CONFIG, outfile)
-    print("User Configured")
+    abs_file_path = os.path.join(base, user_file_name)
+    CONFIG.dump(abs_file_path)
 
 
-    
-def config_prompt(path)->str:
+def config_prompt(path):
     try:
         user_prompt = open(path, 'r').read() 
     except Exception as e:
-        print("Error in reading prompt file: ", e)
-        return
+       raise e
     base = os.path.dirname(__file__)
-    abs_file_path = os.path.join(base, "coverletter.txt")
-    open(abs_file_path,'w').write(coverletter_structure+user_prompt)
-    print("Prompt Configured")
-
-
-
-
-
+    abs_file_path = os.path.join(base, user_prompt_file_name)
+    
+    # prompt creation logic 
+    user_prompt = coverletter_structure+user_prompt+"## Job Description ##"
+    # end of prompt creation logic
+    open(abs_file_path,'w').write(user_prompt)
