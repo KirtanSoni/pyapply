@@ -33,6 +33,7 @@ def listener(interval: int, inputcallback, callback) -> None:
             print(e) #TODO: log using click style
             continue
         time.sleep(interval)
+    
 
 def generate_coverletter(path,job_description):
     try:
@@ -41,4 +42,4 @@ def generate_coverletter(path,job_description):
         generate_cover_letter(path,content) # load user data exception
     except Exception as e:
         raise e
-    
+

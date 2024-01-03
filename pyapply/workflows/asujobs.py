@@ -1,6 +1,6 @@
 import os
 import re
-from ..userdatafiles import load_user_data
+from ..userdatafiles import load_user_data, save_resume
 from ..utils import generate_coverletter
 
 
@@ -39,6 +39,7 @@ def asujobs(job_description):
         raise Exception("Job ID not found in description")
     try: 
         generate_coverletter(job_path,job_description)
+        save_resume(job_path)
         print("Cover Letter Generated") #TODO: log using click style
     except Exception as e:
         raise Exception( e)
