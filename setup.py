@@ -37,10 +37,6 @@ setup(
     packages=find_packages(),
     package_data={"pyapply": ["VERSION"]},  # include VERSION file
     include_package_data=True,
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "Operating System :: OS Independent",
-    ],
     python_requires=">=3.5",
     install_requires=[
         'click==8.1.7',
