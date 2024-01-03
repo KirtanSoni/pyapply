@@ -15,7 +15,10 @@ def requestgpt(msg):
                 )
         return completion.choices[0].message.content
     except Exception as e:
-        raise e
+        if e.__getstate__()['status_code'] == 401:
+            #raise Exception("ChatGPT: Invalid API Key. Please reset User Data")
+            raise e #TODO: handle a case where old account api key doesnt work, print intructions to follow if that error occurs
+    
     
 def listener(interval: int, inputcallback, callback) -> None:
     clipboard = inputcallback()
@@ -25,8 +28,9 @@ def listener(interval: int, inputcallback, callback) -> None:
         clipboard = inputcallback()
         try:
             callback(clipboard)
+            print("Listening for job descriptions...") #TODO: log using click style
         except Exception as e:
-            yield e
+            print(e) #TODO: log using click style
             continue
         time.sleep(interval)
 
@@ -34,7 +38,7 @@ def generate_coverletter(path,job_description):
     try:
         prompt = load_coverletter_prompt() + job_description
         content = requestgpt(prompt)
-        generate_cover_letter(path,content)
+        generate_cover_letter(path,content) # load user data exception
     except Exception as e:
         raise e
     

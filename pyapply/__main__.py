@@ -3,13 +3,18 @@
 import pyperclip
 from pyapply.workflows.asujobs import asujobs
 import click
+from click_help_colors import HelpColorsGroup, HelpColorsCommand
 from .userdatafiles import save_user_data, config_prompt, load_user_data, load_coverletter_prompt,Config
-from .utils import listener
+from .utils import listener, requestgpt
 
 
 VERSION = "0.1"
 
-@click.group()
+@click.group(
+    cls=HelpColorsGroup,
+    help_headers_color='yellow',
+    help_options_color='green'
+)
 def cli():
     pass
 
@@ -53,6 +58,12 @@ def set_user(save_path):
         email= email,
     )
     save_user_data(user)   
+    try:
+        test = requestgpt("write"+name+" a greeting for the day") #TODO: rethink this.
+        click.echo(click.style(f"{test}", fg="green"))
+    except Exception as e:
+        click.echo(click.style(f"{e}", fg="red"))
+        return
     click.echo(click.style(f"User data configured.", fg="green"))
 
 

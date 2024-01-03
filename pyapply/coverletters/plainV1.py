@@ -7,7 +7,6 @@ from ..userdatafiles import load_user_data
 
 
 def generate_cover_letter(output_path:str,body_text:str):
-
     try:
         CONFIG = load_user_data()
     except Exception as e:

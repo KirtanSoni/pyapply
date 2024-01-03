@@ -19,6 +19,7 @@ def create_folder_and_file(description_text):
     match = re.search(r'\b(\d+BR)\b', description_text)
     if match:
         job_id = match.group(1)
+        print("Job Found : " + job_id) #TODO: log using click style
         job_path = os.path.join(history_dir , job_id)
         os.makedirs(job_path, exist_ok=True)
 
@@ -27,18 +28,18 @@ def create_folder_and_file(description_text):
             file.write(description_text)
         return True, job_path
     else:
-        return False,"No Job ID found"
+        return False,""
 
 
 def asujobs(job_description):
-    try:_, job_path = create_folder_and_file(job_description)
+    try: status, job_path = create_folder_and_file(job_description)
     except Exception as e:
-        print("Error in creating folder and file: ", e)
-        return
-    if not _:
-        print(job_path)
-        return
-    try: generate_coverletter(job_path,job_description)
+        raise Exception("Error in creating folder and file: ", e)
+    if not status:
+        raise Exception("Job ID not found in description")
+    try: 
+        generate_coverletter(job_path,job_description)
+        print("Cover Letter Generated") #TODO: log using click style
     except Exception as e:
-        print("Error in generating cover letter: ", e)
-        return
+        raise Exception( e)
+    

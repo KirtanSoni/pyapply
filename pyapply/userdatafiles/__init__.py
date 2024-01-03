@@ -40,7 +40,6 @@ Previous roles related paragraph...
 
 Relevant Skills related to job descriptions....
 
-##end of structure##
 
 ##Details##
 """
