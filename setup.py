@@ -48,7 +48,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'pyapply = pyapply.__main__:__main__' #TODO: might not work
+            'pyapply = pyapply.__main__:cli' #TODO: might not work
         ]
     }
 )
