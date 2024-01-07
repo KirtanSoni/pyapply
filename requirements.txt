@@ -1,0 +1,6 @@
+docx==0.2.4
+pyperclip==1.8.2
+openai==1.3.6
+reportlab==4.0.7
+datetime==5.4
+click_help_colors==0.9.4
