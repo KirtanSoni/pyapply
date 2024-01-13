@@ -39,6 +39,7 @@ setup(
     include_package_data=True,
     python_requires=">=3.5",
     install_requires=[
+        'docx==0.2.4',
         'click==8.1.7',
         'openai==1.3.6',
         'pyperclip==1.8.2',
