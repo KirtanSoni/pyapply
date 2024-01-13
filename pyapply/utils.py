@@ -1,7 +1,7 @@
 from openai import OpenAI
 import time
 from .userdatafiles import load_user_data, load_coverletter_prompt
-from .coverletters.plainV1 import generate_cover_letter
+from .coverletters.plainDocV1 import generate_cover_letter
 
 def requestgpt(msg):
     try:
@@ -15,9 +15,10 @@ def requestgpt(msg):
                 )
         return completion.choices[0].message.content
     except Exception as e:
-        if e.__getstate__()['status_code'] == 401:
-            #raise Exception("ChatGPT: Invalid API Key. Please reset User Data")
-            raise e #TODO: handle a case where old account api key doesnt work, print intructions to follow if that error occurs
+        raise e
+        # if e.__getstate__()['status_code'] == 401:
+        #     #raise Exception("ChatGPT: Invalid API Key. Please reset User Data")
+        #     raise e #TODO: handle a case where old account api key doesnt work, print intructions to follow if that error occurs
     
     
 def listener(interval: int, inputcallback, callback) -> None:
