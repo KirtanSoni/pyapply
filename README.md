@@ -1,5 +1,6 @@
 # PyApply
 
+[Medium: to Get Started](https://medium.com/@kirtan141100/pyapply-a-cli-tool-for-the-automation-of-job-applications-bb2c64ce9628) 
 
 PyApply is a command-line interface (CLI) tool designed to automate coverletter creation, significantly reducing the time required to perform them.
 Heres a  Walkthrough on Medium and Youtube
